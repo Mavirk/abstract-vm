@@ -10,20 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
-#include <vector>
-
+#include "avm.hpp"
 int main(){
-	std::string lineIn;
-	std::cin >> lineIn; 
-
-	while (1)
-		std::cin >> lineIn;
-		switch(lineIn){
-			case exit:
-		}
-	if (lineIn == "exit"){
-		std::cout << "exit was called";
-	}		
+	AVM vm;
+	std::vector<i32> prog{3, 4, 0x40000002, 5, 0x40000003, 0x40000000};
+	vm.loadProgram(prog);
+	vm.run();
+	return 0;
 }
