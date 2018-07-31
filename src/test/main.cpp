@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <vector>
 
@@ -28,9 +29,18 @@ typedef std::vector<std::string> strings;
 //     }
 //     return;
 // }
-
+strings removeComments(strings lineIn){
+    strings lineOut;
+    std::istringstream out();
+    int i = 0;
+    int j; 
+    while (i < lineIn.size()){
+       std::istringstream o(lineIn[i]);
+       o = lineIn[i].get(o, lineIn[i].length, ';');
+    }
+}
 int main(int argc, char* argv[])
-{ 
+{
     strings lineIn;
     if (argc > 1) {
         std::cout << "Running File : " << argv[1] << std::endl;
@@ -57,10 +67,19 @@ int main(int argc, char* argv[])
         }
     }
     // std::cout << "this is  a test" std::endl;
-    //remove comments from all 
+    // remove comments from all lines
+    //
     size_t i = 0;
     while (i < lineIn.size()){
         std::cout << lineIn[i] << std::endl;
+        i++;
+    }
+    strings removedComments;
+
+    removedComments = removeComments(lineIn);
+    i = 0;
+    while (i < removedComments.size()){
+        std::cout << removedComments[i] << std::endl;
         i++;
     }
     return 0;
