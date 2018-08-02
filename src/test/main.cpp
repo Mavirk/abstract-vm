@@ -7,13 +7,7 @@
 typedef std::vector<std::string> strings;
 // std::vector<std::string> fileToStrArray(std::string filename){
 
-//     std::vector<std::string> lineArr;
-
-//     std::ifstream file(filename); //open the file
-//     std::string line = "";
-//     if (file.is_open() && file.good()) {
-//         std::cout << "File is now open!\nContains:\n";
-//         std::string line = "";
+//     std::vector<std::string> lineArr; //     std::ifstream file(filename); //open the file //     std::string line = ""; //     if (file.is_open() && file.good()) { //         std::cout << "File is now open!\nContains:\n";//         std::string line = "";
 //         while (getline(file, line)){
 //             lineArr.push_back(line);
 //             std::cout << line << std::endl;
@@ -29,17 +23,20 @@ typedef std::vector<std::string> strings;
 //     }
 //     return;
 // }
-strings removeComments(strings lineIn){
-    strings lineOut;
-    std::istringstream out();
-    int i = 0;
-    int j; 
-    while (i < lineIn.size()){
-       std::istringstream o(lineIn[i]);
-       o = lineIn[i].get(o, lineIn[i].length, ';');
-    }
+std::string removeComment(std::string s){
+ // std::cout << "test0";
+    // std::string s = "; -------------\n; exemple.avm -\n; -------------\n\npush int32(42)\npush int32(33)\n\nadd\n\npush float(44.55)\n\nmul\n\npush double(42.42)\npush int32(42)\n\ndump\n\npop\n\nassert double(42.42)\n\nexit\n";
+    // std::string s = "mon;day tuesday wednesday";
+    // std::cout << s;
+    std::istringstream s1(s);
+    // std::cout << "test2";
+    char str[s.length()];
+    s1.get(str, s.length(), ';');     // reads "llo,"
+    // std::cout << str << std::endl;
+    return (str);
 }
-int main(int argc, char* argv[])
+
+int main(int argc, char* argv[]) 
 {
     strings lineIn;
     if (argc > 1) {
@@ -71,16 +68,21 @@ int main(int argc, char* argv[])
     //
     size_t i = 0;
     while (i < lineIn.size()){
-        std::cout << lineIn[i] << std::endl;
+        std::cout << lineIn[i] << "" << std::endl;
         i++;
     }
-    strings removedComments;
-
-    removedComments = removeComments(lineIn);
+    strings rmCom;
+    std::cout << "removing comments" << std::endl;
     i = 0;
-    while (i < removedComments.size()){
-        std::cout << removedComments[i] << std::endl;
+    while (i < lineIn.size()){
+        rmCom.push_back(removeComment(lineIn[i]));
+        std::cout << rmCom[i] << std::endl;
         i++;
     }
-    return 0;
+    // i = 0;
+    // while (i < rmCom.size()){
+    //     std::cout << rmCom[i] << std::endl;
+    //     i++;
+    // }
+    // return 0;
 }
