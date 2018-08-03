@@ -4,29 +4,61 @@
 #include <fstream>
 #include <vector>
 
-typedef std::vector<std::string> strings;
-// std::vector<std::string> fileToStrArray(std::string filename){
 
-//     std::vector<std::string> lineArr; //     std::ifstream file(filename); //open the file //     std::string line = ""; //     if (file.is_open() && file.good()) { //         std::cout << "File is now open!\nContains:\n";//         std::string line = "";
-//         while (getline(file, line)){
-//             lineArr.push_back(line);
-//             std::cout << line << std::endl;
-//         }
-//         return(lineArr);
-        
-//     } else {
-//         std::cout << "Failed to open file..";
-//         while (line != "end"){
-//             std::cout << "Please Input Command :" << std::endl;
-//             std::cin >> line ;
-//         }
-//     }
-//     return;
-// }
+typedef int32_t i32;
+typedef std::vector<std::string> strings;
+typedef std::vector<i32> stack;
+
+
+
+int lex(std::string in){
+    // stack st;
+    // size_t f;
+    // size_t i = 0;
+    // std::string curr;
+    if (0 == in.find("push")){
+        std::cout << "push command" << std::endl;
+    }else if(0 == in.find("pop")){
+        std::cout << "pop command" << std::endl;
+    }else if(0 == in.find("dump")){
+        std::cout << "dump command" << std::endl;
+    }else if (0 == in.find("assert")){
+        std::cout << "assert command" << std::endl;
+    }else if (0 == in.find("add")){
+        std::cout << "add command" << std::endl;
+    }else if (0 == in.find("sub")){
+        std::cout << "sub command" << std::endl;
+    }else if (0 == in.find("mul")){
+        std::cout << "mul command" << std::endl;
+    }else if (0 == in.find("div")){
+        std::cout << "div command" << std::endl;
+    }else if (0 == in.find("mod")){
+        std::cout << "mod command" << std::endl;
+    }else if (0 == in.find("print")){
+        std::cout << "print command" << std::endl;
+    }else if (0 == in.find("exit")){
+        std::cout << "exit command" << std::endl;
+    }else {
+        return -1;
+    }
+
+    return 0;
+}
+
 std::string removeComment(std::string s){
-    std::istringstream s1(s);
-    char str[s.length()];
-    s1.get(str, s.length(), ';');     // reads "llo,"
+    std::string str;
+    size_t i = 0;
+
+    while (i < s.length()){
+        if (s[i] == ';' ){
+            while (s[i] != '\n'){
+                i++;
+            }
+        }else{
+            str += s[i];
+        }
+        i++;
+    }
     return (str);
 }
 
@@ -60,17 +92,29 @@ int main(int argc, char* argv[])
     // std::cout << "this is  a test" std::endl;
     // remove comments from all lines
     //
+    // std::cout << "input looks like::" << std::endl;
     size_t i = 0;
     while (i < lineIn.size()){
-        std::cout << lineIn[i] << "" << std::endl;
+        // std::cout << lineIn[i] << "" << std::endl;
         i++;
     }
-    strings rmCom;
-    std::cout << "removing comments" << std::endl;
+    std::string instr;
+    // std::cout << "removing comments" << std::endl;
     i = 0;
+    std::string s;
     while (i < lineIn.size()){
-        rmCom.push_back(removeComment(lineIn[i]));
-        std::cout << rmCom[i] << std::endl;
+        s = removeComment(lineIn[i]);
+        if (!s.empty()){
+            instr = s;
+            if (lex(s) == -1){
+                std::cout << "ERROR" << std::endl;
+            }
+        }
+        i++;
+    }
+    i = 0;
+    while (i < instr.size()){
+        std::cout << instr[i] << std::endl; 
         i++;
     }
     // i = 0;
