@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "lexer.hpp"
 
 strings Lexer::lex(std::string s) {
     strings strlst;

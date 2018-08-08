@@ -2,12 +2,12 @@
 ; exemple.avm -
 ; -------------
 
-pussh int32(42)
-push int32(33)
-
+push int32(42)
+push  kint32(33)
+askdjhajkshdajkhsdhsdkh
 add
-
-puesh float(44.55)
+0
+push float(44.55)
 
 mul
 
