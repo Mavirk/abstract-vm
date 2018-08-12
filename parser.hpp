@@ -1,6 +1,10 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 #include "Ioperand.hpp"
+#include "operand.hpp"
+#include <limits>
+#include <sstream>
+#include <iostream>
 class Parser{
     public:
         Parser();

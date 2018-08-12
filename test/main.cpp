@@ -11,7 +11,7 @@ typedef std::vector<i32> stack;
 
 
 
-int lex(std::string in){
+int parse(std::string in){
     // stack st;
     // size_t f;
     // size_t i = 0;
@@ -106,8 +106,8 @@ int main(int argc, char* argv[])
         s = removeComment(lineIn[i]);
         if (!s.empty()){
             instr = s;
-            if (lex(s) == -1){
-                std::cout << "ERROR" << std::endl;
+            if (parse(s) == -1){
+                std::cout << "ERROR on line" << i << std::endl;
             }
         }
         i++;
