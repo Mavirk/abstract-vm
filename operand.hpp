@@ -2,6 +2,7 @@
 #define OPERAND_HPP
 
 #include "Ioperand.hpp"
+#include "parser.hpp"
 template<typename T>
 class Operand : public IOperand {
     private:
@@ -53,8 +54,8 @@ class Operand : public IOperand {
 
             ss << rhs.toString();
             ss >> rhsvalue;
-            precise = _type >= rhs.getType() ? _type : rhs.getType;
-            return Parser::createOperand(precise, _value + rhsvalue)
+            precise = _type >= rhs.getType() ? _type : rhs.getType();
+            return Parser::createOperand(precise, _val + rhsvalue)
         }
 
         IOperand const * operator-( IOperand const & rhs ) const{
@@ -64,8 +65,8 @@ class Operand : public IOperand {
 
             ss << rhs.toString();
             ss >> rhsvalue;
-            precise = _type >= rhs.getType() ? _type : rhs.getType;
-            return Parser::createOperand(precise, _value - rhsvalue)
+            precise = _type >= rhs.getType() ? _type : rhs.getType();
+            return Parser::createOperand(precise, _val - rhsvalue)
         }
 
         IOperand const * operator*( IOperand const & rhs ) const{
@@ -75,8 +76,8 @@ class Operand : public IOperand {
 
             ss << rhs.toString();
             ss >> rhsvalue;
-            precise = _type >= rhs.getType() ? _type : rhs.getType;
-            return Parser::createOperand(precise, _value * rhsvalue);
+            precise = _type >= rhs.getType() ? _type : rhs.getType();
+            return Parser::createOperand(precise, _val * rhsvalue);
         }
 
         IOperand const * operator/( IOperand const & rhs ) const{
@@ -86,8 +87,8 @@ class Operand : public IOperand {
 
             ss << rhs.toString();
             ss >> rhsvalue;
-            precise = _type >= rhs.getType() ? _type : rhs.getType;
-            return Parser::createOperand(precise, _value / rhsvalue)
+            precise = _type >= rhs.getType() ? _type : rhs.getType();
+            return Parser::createOperand(precise, _val / rhsvalue)
         }
 
         IOperand const * operator%( IOperand const & rhs ) const{
@@ -97,8 +98,8 @@ class Operand : public IOperand {
 
             ss << rhs.toString();
             ss >> rhsvalue;
-            precise = _type >= rhs.getType() ? _type : rhs.getType;
-            return Parser::createOperand(precise, _value % rhsvalue)
+            precise = _type >= rhs.getType() ? _type : rhs.getType();
+            return Parser::createOperand(precise, _val % rhsvalue)
         }
 };
 #endif

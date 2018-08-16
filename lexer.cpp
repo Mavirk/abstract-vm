@@ -1,7 +1,7 @@
 #include "lexer.hpp"
 
-Lexer::Lexer(){
-    return;
+Lexer::Lexer(std::vector<std::string> raw) {
+    _rawLines = raw;
 }
 
 Lexer::~Lexer(){
@@ -10,25 +10,6 @@ Lexer::~Lexer(){
 
 Lexer::Lexer(const Lexer &obj){
     *this = obj;
-    return;
-}
-
-Lexer::Lexer(int argc, char** argv) : _lexemes(0){
-    if (argc > 2){
-        std::cout << "too many args" <<std::endl;
-        return;
-    }
-    if (argc == 2){
-        infile.open(argv[1]);
-        if (infile.is_open() && infile.good()){
-            while (getline(infile, line)){
-                line += '\n';
-                rawLines.push_back(line);
-            }
-        }else{
-            std::cout << "file is not readable" << std::endl;
-        }
-    }
     return;
 }
 
@@ -47,12 +28,8 @@ Lexer::getLexemes() const{
 
 void
 Lexer::run() {
-    for (size_t i = 0 ; i < rawLines.size(); i++){
-        lex(rawLines[i]);
-    }
-    for (size_t i = 0; i < _lexemes.size(); i++){
-        std::cout << "type : " << _lexemes[i].type;
-        std::cout << " value : " <<_lexemes[i].value << std::endl;
+    for (size_t i = 0 ; i < _rawLines.size(); i++){
+        lex(_rawLines[i]);
     }
 }
 
@@ -105,7 +82,7 @@ Lexer::lex(std::string line) {
             }else if(std::regex_match(curr, d)){
                 _lexemes.emplace_back(Lexeme{DOUBLE, curr});
             }else if (curr != ""){
-                std::cout << "ERROR" << std::endl;
+                _lexemes.emplace_back(Lexeme{ERROR, curr});
             }
             curr = "";
         }

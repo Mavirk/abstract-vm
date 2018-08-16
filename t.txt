@@ -3,7 +3,7 @@
 ; -------------
 
 push int32(42)
-push  kint32(33)
+push
 askdjhajkshdajkhsdhsdkh
 add
 0

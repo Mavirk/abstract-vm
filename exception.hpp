@@ -35,14 +35,19 @@ class Underflow : public Exception{
         Underflow(std::string const &msg);
 };
 
-class PopOnEmpty : public Exception{
+class InputError : public Exception{
     public:
-        PopOnEmpty(std::string const &msg);
+        InputError(std::string const &msg);
 };
 
-class DivByZero : public Exception{
+class StackError : public Exception{
     public:
-        DivByZero(std::string const &msg);
+        StackError(std::string const &msg);
+};
+
+class LogicalError : public Exception{
+    public:
+        LogicalError(std::string const &msg);
 };
 
 class NoExit : public Exception{
@@ -54,7 +59,6 @@ class AssertFalse : public Exception{
     public:
         AssertFalse(std::string const &msg);
 };
-
 class StackLessThan2 : public Exception{
     public:
         StackLessThan2(std::string const &msg);

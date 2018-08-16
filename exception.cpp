@@ -1,12 +1,13 @@
-#include "Exceptions.hpp"
+#include "exception.hpp"
 
-Exception::Exception(std::string const& msg): std::exception{
+Exception::Exception(std::string const& msg): std::exception(){
     _msg = msg;
     _type = "";
 }
+
 Exception::~Exception() throw() {}
 
-const char *Exception::what() throw() {
+const char *Exception::what() const throw() {
     return (_type + _msg).data();
 }
 
@@ -14,19 +15,22 @@ LexParseError::LexParseError(std::string const& msg) :Exception(msg) {
     _type = "Lex/Parse Error : ";
 }
 UnknownInstruction::UnknownInstruction(std::string const& msg) :Exception(msg) {
-    _type = "Lex/Parse Error : ";
+    _type = "Unknown Instruction Error : ";
 }
 Overflow::Overflow(std::string const& msg) :Exception(msg) {
-    _type = "Lex/Parse Error : ";
+    _type = "Overflow Error : ";
 }
 Underflow::Underflow(std::string const& msg) :Exception(msg) {
     _type = "Underflow Error : ";
 }
-PopOnEmpty::PopOnEmpty(std::string const& msg) :Exception(msg) {
-    _type = "Pop on Empty Stack Error : ";
+StackError::StackError(std::string const& msg) :Exception(msg) {
+    _type = "Stack Error : ";
 }
-DivByZero::DivByZero(std::string const& msg) :Exception(msg) {
-    _type = "Divide by Zero Error : ";
+LogicalError::LogicalError(std::string const& msg) :Exception(msg) {
+    _type = "Logical Error : ";
+}
+InputError::InputError(std::string const& msg) :Exception(msg) {
+    _type = "Input Error : ";
 }
 NoExit::NoExit(std::string const& msg) :Exception(msg) {
     _type = "Exit Error : ";

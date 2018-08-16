@@ -29,16 +29,6 @@ enum token {
     ERROR = -1
 };
 
-// enum State {
-//     START,
-//     READCHAR,
-//     READBLOCK,
-//     SKIP,
-//     DUMP,
-//     COMMENT,
-//     END,
-// };
-
 struct Lexeme
 {
     token           type;
@@ -47,22 +37,18 @@ struct Lexeme
 
 class Lexer {
     public:
-        Lexer();
+        Lexer(std::vector<std::string> raw);
         ~Lexer();
         Lexer(const Lexer& obj);
         Lexer                   &operator=(Lexer const& rhs);
-        
-        Lexer(int ac, char** av);
 
-
-        std::vector<Lexeme>       getLexemes() const;
-        void                    run();
-        void                     lex(std::string line);
+        std::vector<Lexeme>         getLexemes() const;
+        void                        run();
+        void                        lex(std::string line);
 
     private:
         std::vector<Lexeme>         _lexemes;
-        std::ifstream               infile;
-        std::string                 line;
-        std::vector<std::string>    rawLines;
+        std::string                 _line;
+        std::vector<std::string>    _rawLines;
 };
 #endif
