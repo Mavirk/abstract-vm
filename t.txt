@@ -2,22 +2,8 @@
 ; exemple.avm -
 ; -------------
 
-push int32(42)
-push
-askdjhajkshdajkhsdhsdkh
+push int8(2)
+push int8(2)
 add
-0
-push float(44.55)
-
-mul
-
-push double(42.42)
-push int32(42)
-
-dump
-
-pop
-
-assert double(42.42)
-
+assert int8(100)
 exit

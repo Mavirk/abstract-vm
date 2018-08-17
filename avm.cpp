@@ -36,7 +36,7 @@ AVM::AVM(std::string filename){
     _fptr["sub"] = &AVM::sub;
     _fptr["mul"] = &AVM::mul;
     _fptr["div"] = &AVM::div;
-    _fptr["mod"] = &AVM::mod;
+    // _fptr["mod"] = &AVM::mod;
     _fptr["print"] = &AVM::print;
     _fptr["exit"] = &AVM::exit;
 }
@@ -60,11 +60,33 @@ AVM::operator=(const AVM & vm){
 
 void
 AVM::run(){
-    std::cout << "this is a test" << std::endl;
+    for(size_t i = 0; i < _lexemes.size(); i++){
+        std::cout << i << std::endl;
+        if (_lexemes[i].value == "push" || _lexemes[i].value == "assert"){
+            // std::cout << "blah" << std::endl;
+            if (i + 1 < _lexemes.size()){
+                std::cout << "Push or Assert ? : " << _lexemes[i].value << std::endl;
+                std::cout << "Type ? : " << _lexemes[i + 1].value << std::endl;
+                (this->*_fptr[_lexemes[i].value])(_lexemes[i + 1].value);
+                i++;
+            }else{
+                throw NoExit("no exit was found");
+            }
+            // std::cout << "test" << std::endl;
+        }else{
+            // std::cout << "test2" << std::endl;                
+            (this->*_fptr[_lexemes[i].value])("");
+        }
+    }
+    if (_end)
+        return;
+    throw NoExit("NO exit was found");
 }
 void
 AVM::push(std::string const &str){
+    // std::cout << "push" << std::endl;
     _stack.emplace(Parser::operand(str));
+    // std::cout << "called" << std::endl;
 }
 void
 AVM::pop(std::string const &str UNUSED){
@@ -74,7 +96,7 @@ AVM::pop(std::string const &str UNUSED){
 }
 void
 AVM::dump(std::string const &str UNUSED){
-    std::stack<IOperand *> s = _stack;
+    std::stack<IOperand const *> s = _stack;
     while (!s.empty()){
         std::cout << s.top()->toString() << std::endl;
         s.pop();
@@ -83,6 +105,7 @@ AVM::dump(std::string const &str UNUSED){
 void
 AVM::ass(std::string const &str){
     IOperand const		*cmp = Parser::operand(str);
+    // std::cout << _stack.top()->toString() << std::endl;
     if (_stack.top()->getType() != cmp->getType()
         || _stack.top()->toString() != cmp->toString()){
             throw AssertFalse(str + "cannot be asserted to top of stack");
@@ -94,14 +117,17 @@ AVM::add(std::string const &str UNUSED){
     if (_stack.size() < 2)
         throw StackLessThan2("");
     a = _stack.top();
+    std::cout << "a" << _stack.top()->toString() << std::endl;
     _stack.pop();
     b = _stack.top();
+    std::cout << "b" <<_stack.top()->toString() << std::endl;
     _stack.pop();
     _stack.emplace(*a + *b);
+    std::cout << _stack.top()->toString() << std::endl;
 }
 void
 AVM::sub(std::string const &str UNUSED){
-    IOperand    *a, *b;
+    IOperand const   *a, *b;
     if (_stack.size() < 2)
         throw StackLessThan2("");
     a = _stack.top();
@@ -112,7 +138,7 @@ AVM::sub(std::string const &str UNUSED){
 }
 void
 AVM::mul(std::string const &str UNUSED){
-    IOperand    *a, *b;
+    IOperand const   *a, *b;
     if (_stack.size() < 2)
         throw StackLessThan2("");
     a = _stack.top();
@@ -124,7 +150,7 @@ AVM::mul(std::string const &str UNUSED){
 }
 void
 AVM::div(std::string const &str UNUSED){
-    IOperand    *a, *b;
+    IOperand const   *a, *b;
     if (_stack.size() < 2)
         throw StackLessThan2("");
     a = _stack.top();
@@ -134,18 +160,18 @@ AVM::div(std::string const &str UNUSED){
     _stack.emplace(*a / *b);
 
 }
-void
-AVM::mod(std::string const &str UNUSED){
-    IOperand    *a, *b;
-    if (_stack.size() < 2)
-        throw StackLessThan2("");
-    a = _stack.top();
-    _stack.pop();
-    b = _stack.top();
-    _stack.pop();
-    _stack.emplace(*a % *b);
+// void
+// AVM::mod(std::string const &str UNUSED){
+//     IOperand const   *a, *b;
+//     if (_stack.size() < 2)
+//         throw StackLessThan2("");
+//     a = _stack.top();
+//     _stack.pop();
+//     b = _stack.top();
+//     _stack.pop();
+//     _stack.emplace(*a % *b);
 
-}
+// }
 void
 AVM::print(std::string const &str UNUSED){
     std::stringstream   ss;

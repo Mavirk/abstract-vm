@@ -3,7 +3,7 @@
 #include "lexer.hpp"
 #include "exception.hpp"
 #include "Ioperand.hpp"
-#include "operand.hpp"
+#include <string>
 #include <limits>
 #include <sstream>
 #include <iostream>
@@ -11,14 +11,9 @@
 
 class Parser{
     public:
-        Parser();
-        ~Parser();
-        Parser(const Parser &obj);
-        Parser              &operator=(Parser const &rhs);
         static IOperand const      *createOperand( eOperandType type, std::string const & value );
         static IOperand const      *operand(std::string const &str);
-        void                checkPushAssert(std::vector<Lexeme> lexemes);
-        std::map<std::string, eOperandType>     ops;
+        // void                checkPushAssert(std::vector<Lexeme> lexemes);
 
     private:
         static IOperand*	createInt8(const std::string& value);

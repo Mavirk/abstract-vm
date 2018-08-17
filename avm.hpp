@@ -3,6 +3,7 @@
 #include "parser.hpp"
 #include "lexer.hpp"
 #include "exception.hpp"
+#include "operand.hpp"
 #include <iostream>
 #include <stack>
 #include <map>
@@ -27,13 +28,13 @@ class AVM {
         void	sub(std::string const &str);
         void	mul(std::string const &str);
         void	div(std::string const &str);
-        void	mod(std::string const &str);
+        // void	mod(std::string const &str);
         void	print(std::string const &str);
         void	exit(std::string const &str);
         std::vector<Lexeme>                                         _lexemes;
         bool								                        _end;
         std::string							                        _buf;
-        std::stack<IOperand const *>						                _stack;
+        std::stack<IOperand const *>						        _stack;
         std::map<std::string, void (AVM::*)(std::string const &)>	_fptr;
 };
 #endif
