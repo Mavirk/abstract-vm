@@ -4,7 +4,7 @@
 // #include "parser.hpp"
 #include "Ioperand.hpp"
 
-int main(int argc , char **argv ){
+int main(int argc UNUSED, char **argv ){
     try {
         AVM	vm(argv[1]);
         // Parser::createOperand(Int8, "test");

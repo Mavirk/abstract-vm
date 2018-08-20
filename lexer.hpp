@@ -33,6 +33,7 @@ struct Lexeme
 {
     token           type;
     std::string     value;
+    size_t             l;
 };
 
 class Lexer {
@@ -44,7 +45,7 @@ class Lexer {
 
         std::vector<Lexeme>         getLexemes() const;
         void                        run();
-        void                        lex(std::string line);
+        void                        lex(std::string line, size_t j);
 
     private:
         std::vector<Lexeme>         _lexemes;

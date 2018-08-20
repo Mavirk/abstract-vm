@@ -2,8 +2,8 @@
 ; exemple.avm -
 ; -------------
 
-push int8(2)
-push int8(2)
+push int32(2)
+push int32(2)
 add
-assert int8(4)
+assert int32(4)
 exit

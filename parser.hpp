@@ -13,6 +13,7 @@ class Parser{
     public:
         static IOperand const      *createOperand( eOperandType type, std::string const & value );
         static IOperand const      *operand(std::string const &str);
+        static IOperand const      *createOperand(eOperandType type, long double value);
         // void                checkPushAssert(std::vector<Lexeme> lexemes);
 
     private:

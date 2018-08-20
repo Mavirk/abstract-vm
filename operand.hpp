@@ -2,7 +2,7 @@
 #define OPERAND_HPP
 
 #include "parser.hpp"
-
+#include <typeinfo>
 #include "Ioperand.hpp"
 #include "avm.hpp"
 template<typename T>
@@ -17,7 +17,11 @@ class Operand : public IOperand {
             std::stringstream ss;
             ss.str(str);
             _type = type;
-            ss >> _val;
+            if (type == Int8)
+                _val = static_cast<int8_t>(stoi(str));
+            else
+                ss >> _val;
+            
             _str = str;
         }
 
@@ -52,60 +56,51 @@ class Operand : public IOperand {
 
         IOperand const * operator+( IOperand const & rhs ) const{
             std::stringstream   ss;
-            char                v = _val;
             eOperandType        precise;
-            char         value;
-            // long double         lhsvalue;
-            // lhsvalue = _val;
-            std::cout << "+ operator v " << v << std::endl;
+            long double         value;
+            
             ss << rhs.toString();
             ss >> value;
             precise = _type >= rhs.getType() ? _type : rhs.getType();
-            // std::cout << "+ operator lhs value" << lhsvalue << std::endl;
-            std::cout << "+ operator rhs value " << value << std::endl;
-            std::cout << "sum" << v + value << std::endl;
-            return Parser::createOperand(precise, std::to_string(_val + value));
+            value = value + _val;
+            return Parser::createOperand(precise, value);
         }
 
         IOperand const * operator-( IOperand const & rhs ) const{
             std::stringstream   ss;
             eOperandType        precise;
-            long double         rhsvalue;
-            long double         lhsvalue;
-            lhsvalue = _val;
-
-
+            long double         value;
+            
             ss << rhs.toString();
-            ss >> rhsvalue;
-
+            ss >> value;
             precise = _type >= rhs.getType() ? _type : rhs.getType();
-            return Parser::createOperand(precise, std::to_string(lhsvalue + rhsvalue));
+            value = value - _val;
+            return Parser::createOperand(precise, value);
         }
 
         IOperand const * operator*( IOperand const & rhs ) const{
             std::stringstream   ss;
             eOperandType        precise;
-            long double         rhsvalue;
-            long double         lhsvalue;
-            lhsvalue = _val;
-
+            long double         value;
+            
             ss << rhs.toString();
-            ss >> rhsvalue;
+            ss >> value;
             precise = _type >= rhs.getType() ? _type : rhs.getType();
-            return Parser::createOperand(precise, std::to_string(lhsvalue + rhsvalue));
+            value = value * _val;
+            // std::cout <<"mul val "<< value << std::endl;
+            return Parser::createOperand(precise, value);
         }
 
         IOperand const * operator/( IOperand const & rhs ) const{
             std::stringstream   ss;
             eOperandType        precise;
-            long double         rhsvalue;
-            long double         lhsvalue;
-            lhsvalue = _val;
-
+            long double         value;
+            
             ss << rhs.toString();
-            ss >> rhsvalue;
+            ss >> value;
             precise = _type >= rhs.getType() ? _type : rhs.getType();
-            return Parser::createOperand(precise, std::to_string(lhsvalue + rhsvalue));
+            value = value / _val;
+            return Parser::createOperand(precise, value);
         }
 
         // IOperand const * operator%( IOperand const & rhs ) const{

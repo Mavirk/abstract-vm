@@ -2,8 +2,12 @@
 ; exemple.avm -
 ; -------------
 
-push int8(2)
+push double(2)
 push int8(2)
 add
-assert int8(4)
+push int8(2)
+mul
+push float(7)
+sub
+assert double(-1)
 exit

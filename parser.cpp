@@ -4,30 +4,36 @@
 IOperand const *
 Parser::createOperand(eOperandType type, std::string const & value ){
 
-    IOperand    *(*fptr[])(std::string const & value) = {&createInt8//,
-                                                        // &createInt16,
-                                                        // &createInt32, 
-                                                        // &createFloat, 
-                                                        // &createDouble
+    IOperand    *(*fptr[])(std::string const & value) = {&createInt8,
+                                                        &createInt16,
+                                                        &createInt32, 
+                                                        &createFloat, 
+                                                        &createDouble
                                                         };
     return fptr[type](value);
 }
 
 IOperand const*
+Parser::createOperand(eOperandType type, long double value) {
+  std::ostringstream	os;
+
+  os << value;
+  return Parser::createOperand(type, os.str());
+}
+
+IOperand const*
 Parser::operand(std::string const &str){
     std::map<std::string, eOperandType>     ops;
-    
-    // std::cout << "str :";
-    // std::cout << str << std::endl;
+    std::string	type; 
+    std::string value;
+
     ops["int8"] = Int8;
     ops["int16"] = Int16;
     ops["int32"] = Int32;
     ops["float"] = Float;
     ops["double"] = Double;
-    std::string	type, value;
     type = str.substr(0, str.find("("));
     value = str.substr(str.find("(") + 1, str.find(")") - str.find("(") - 1);
-    // std::cout << type <<std::endl;
     if (ops.find(type) == ops.end())
         throw LexParseError("Unknown type : " + type);
     return Parser::createOperand(ops[type], value);
@@ -67,7 +73,7 @@ Parser::createInt8(const std::string& value){
     ss >> val;
     if (val < std::numeric_limits<signed char>::min() || val > std::numeric_limits<signed char>::max())
         std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an int8";
-    ret = new Operand<char>(Int8, value);
+    ret = new Operand<int8_t>(Int8, value);
     return ret;
 }
 
@@ -81,7 +87,7 @@ Parser::createInt16(const std::string& value){
     ss >> val;
     if (val < std::numeric_limits<short>::min() || val > std::numeric_limits<short>::max())
         std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an int16";
-    ret = new Operand<short>(Int16, value);
+    ret = new Operand<int16_t>(Int16, value);
     return ret;
 }
 
@@ -95,7 +101,7 @@ Parser::createInt32(const std::string& value){
     ss >> val;
     if (val < std::numeric_limits<int>::min() || val > std::numeric_limits<int>::max())
         std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an int32";
-    ret = new Operand<int>(Int32, value);
+    ret = new Operand<int32_t>(Int32, value);
     return ret;
 }
 
@@ -107,7 +113,7 @@ Parser::createFloat(const std::string& value){
 
     ss.str(value);
     ss >> val;
-    if (val < std::numeric_limits<float>::min() || val > std::numeric_limits<float>::max())
+    if (val < std::numeric_limits<float>::lowest() || val > std::numeric_limits<float>::max())
         std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an float";
     ret = new Operand<float>(Float, value);
     return ret;
@@ -121,7 +127,7 @@ Parser::createDouble(const std::string& value){
 
     ss.str(value);
     ss >> val;
-    if (val < std::numeric_limits<double>::min() || val > std::numeric_limits<double>::max())
+    if (val < std::numeric_limits<double>::lowest() || val > std::numeric_limits<double>::max())
         std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an double";
     ret = new Operand<double>(Double, value);
     return ret;
