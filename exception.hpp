@@ -59,8 +59,4 @@ class AssertFalse : public Exception{
     public:
         AssertFalse(std::string const &msg);
 };
-class StackLessThan2 : public Exception{
-    public:
-        StackLessThan2(std::string const &msg);
-};
 #endif

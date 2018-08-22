@@ -1,0 +1,7 @@
+;verbose
+push double(42.42)
+push double(42.42)
+
+div
+dump
+exit

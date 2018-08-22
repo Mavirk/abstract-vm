@@ -68,25 +68,30 @@ AVM::run(){
         }
     }
     for(size_t i = 0; i < _lexemes.size(); i++){
+        // std::cout << "asdasdasdasd" << std::endl;
         if (!error){    
             if (_lexemes[i].value == "push" || _lexemes[i].value == "assert"){
                 if (i + 1 < _lexemes.size()){
+                    // std::cout << i << std::endl;
                     (this->*_fptr[_lexemes[i].value])(_lexemes[i + 1].value);
                     i++;
                 }else{
                     throw NoExit("no exit was found");
                 }
             }else{
+                // std::cout << i << std::endl;
+                // std::cout << _lexemes[i].value << std::endl;
                 (this->*_fptr[_lexemes[i].value])("");
+                // std::cout << "test" << std::endl;
             }
         }
     }
     if (error){
-        throw InputError("Error(s) found");
+        throw InputError("Syntax Error(s) found");
     }
     if (_end)
         return;
-    throw NoExit("NO exit was found");
+    throw NoExit("No exit was found");
 }
 void
 AVM::push(std::string const &str){
@@ -96,10 +101,10 @@ AVM::push(std::string const &str){
 }
 void
 AVM::pop(std::string const &str UNUSED){
-    std::cout << "POP : ";
-    std::cout << _stack.top()->toString() << std::endl;
     if (_stack.empty())
         throw StackError("Pop on empty");
+    std::cout << "POP : ";
+    std::cout << _stack.top()->toString() << std::endl;
     _stack.pop();
 }
 void
@@ -137,10 +142,10 @@ AVM::ass(std::string const &str){
 }
 void
 AVM::add(std::string const &str UNUSED){
+    if (_stack.size() < 2)
+        throw StackError("Adding on stack with less than two operands");
     std::cout << "ADD : ";
     IOperand const   *a, *b;
-    if (_stack.size() < 2)
-        throw StackLessThan2("");
     a = _stack.top();
     std::cout << _stack.top()->toString();
     _stack.pop();
@@ -153,10 +158,10 @@ AVM::add(std::string const &str UNUSED){
 }
 void
 AVM::sub(std::string const &str UNUSED){
+    if (_stack.size() < 2)
+        throw StackError("Subtracting on stack with less than two operands");
     std::cout << "SUB : ";
     IOperand const   *a, *b;
-    if (_stack.size() < 2)
-        throw StackLessThan2("");
     a = _stack.top();
     std::cout << a->toString();
     _stack.pop();
@@ -168,10 +173,10 @@ AVM::sub(std::string const &str UNUSED){
 }
 void
 AVM::mul(std::string const &str UNUSED){
+    if (_stack.size() < 2)
+        throw StackError("Multiplying on stack with less than two operands");
     std::cout << "MUL : ";
     IOperand const   *a, *b;
-    if (_stack.size() < 2)
-        throw StackLessThan2("");
     a = _stack.top();
     std::cout << _stack.top()->toString();
     _stack.pop();
@@ -184,10 +189,10 @@ AVM::mul(std::string const &str UNUSED){
 }
 void
 AVM::div(std::string const &str UNUSED){
+    if (_stack.size() < 2)
+        throw StackError("Dividing on stack with less than two operands");
     std::cout << "DIV : ";
     IOperand const   *a, *b;
-    if (_stack.size() < 2)
-        throw StackLessThan2("");
     a = _stack.top();
     std::cout << _stack.top()->toString();
     _stack.pop();
@@ -205,10 +210,10 @@ AVM::div(std::string const &str UNUSED){
 
 void
 AVM::mod(std::string const &str UNUSED){
+    if (_stack.size() < 2)
+        throw StackError("Modulus on stack with less than two operands");
     std::cout << "MOD : ";
     IOperand const   *a, *b;
-    if (_stack.size() < 2)
-        throw StackLessThan2("");
     a = _stack.top();
     std::cout << _stack.top()->toString();
     _stack.pop();

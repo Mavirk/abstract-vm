@@ -1,0 +1,36 @@
+push int16(12)
+push int16(12)
+add
+dump
+assert int16(24)
+pop
+
+push int16(22)
+push int16(26)
+sub
+dump
+assert int16(4)
+pop
+
+push int16(12)
+push int16(10)
+mul
+dump
+assert int16(120)
+pop
+
+push int16(120)
+push int16(10)
+div
+dump
+assert int16(0)
+pop
+
+push int16(2)
+push int16(5)
+mod
+dump
+assert int16(1)
+pop
+
+exit

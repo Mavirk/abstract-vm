@@ -1,0 +1,36 @@
+push double(12)
+push int8(12)
+add
+dump
+assert double(24)
+pop
+
+push double(22)
+push int8(26)
+sub
+dump
+assert double(4)
+pop
+
+push double(12)
+push int8(10)
+mul
+dump
+assert double(120)
+pop
+
+push double(120)
+push int8(10)
+div
+dump
+assert double(0.0833333)
+pop
+
+push double(2)
+push int8(5)
+mod
+dump
+assert double(1)
+pop
+
+exit

@@ -35,9 +35,6 @@ NoExit::NoExit(std::string const& msg) :Exception(msg) {
 AssertFalse::AssertFalse(std::string const& msg) :Exception(msg) {
     _type = "Assert Error : ";
 }
-StackLessThan2::StackLessThan2(std::string const& msg) :Exception(msg) {
-    _type = "Stack Error : ";
-}
 MathError::MathError(std::string const& msg) :Exception(msg) {
     _type = "Math Error : ";
 }
