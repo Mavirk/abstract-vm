@@ -15,9 +15,18 @@ Parser::createOperand(eOperandType type, std::string const & value ){
 
 IOperand const*
 Parser::createOperand(eOperandType type, long double value) {
-  std::ostringstream	os;
-
-  os << value;
+    std::ostringstream	os;
+    if (value == -0)
+        value = 0;
+    os << value;
+    if (type < 3){
+        for (size_t i = 0 ; i < os.str().size() ; i++){
+            if (os.str()[i] == '.'){
+                std::cout << "\n";
+                throw LogicalError("Cant create 'int' type with 'double' value ");
+            }
+        }
+    }
   return Parser::createOperand(type, os.str());
 }
 
@@ -72,7 +81,7 @@ Parser::createInt8(const std::string& value){
     ss.str(value);
     ss >> val;
     if (val < std::numeric_limits<signed char>::min() || val > std::numeric_limits<signed char>::max())
-        std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an int8";
+        throw UnderOverFlow("With Int8");
     ret = new Operand<int8_t>(Int8, value);
     return ret;
 }
@@ -86,7 +95,7 @@ Parser::createInt16(const std::string& value){
     ss.str(value);
     ss >> val;
     if (val < std::numeric_limits<short>::min() || val > std::numeric_limits<short>::max())
-        std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an int16";
+        throw UnderOverFlow("With Int16");
     ret = new Operand<int16_t>(Int16, value);
     return ret;
 }
@@ -100,7 +109,7 @@ Parser::createInt32(const std::string& value){
     ss.str(value);
     ss >> val;
     if (val < std::numeric_limits<int>::min() || val > std::numeric_limits<int>::max())
-        std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an int32";
+        throw UnderOverFlow("With Int32");
     ret = new Operand<int32_t>(Int32, value);
     return ret;
 }
@@ -114,7 +123,7 @@ Parser::createFloat(const std::string& value){
     ss.str(value);
     ss >> val;
     if (val < std::numeric_limits<float>::lowest() || val > std::numeric_limits<float>::max())
-        std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an float";
+        throw UnderOverFlow("With Float");
     ret = new Operand<float>(Float, value);
     return ret;
 }
@@ -128,7 +137,7 @@ Parser::createDouble(const std::string& value){
     ss.str(value);
     ss >> val;
     if (val < std::numeric_limits<double>::lowest() || val > std::numeric_limits<double>::max())
-        std::cout << "Erro of type : Overflow or Underflow for value " << value  << "doesnt fit into an double";
+        throw UnderOverFlow("With Double");
     ret = new Operand<double>(Double, value);
     return ret;
 }

@@ -28,7 +28,7 @@ class AVM {
         void	sub(std::string const &str);
         void	mul(std::string const &str);
         void	div(std::string const &str);
-        // void	mod(std::string const &str);
+        void	mod(std::string const &str);
         void	print(std::string const &str);
         void	exit(std::string const &str);
         std::vector<Lexeme>                                         _lexemes;

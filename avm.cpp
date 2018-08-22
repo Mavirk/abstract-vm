@@ -36,7 +36,7 @@ AVM::AVM(std::string filename){
     _fptr["sub"] = &AVM::sub;
     _fptr["mul"] = &AVM::mul;
     _fptr["div"] = &AVM::div;
-    // _fptr["mod"] = &AVM::mod;
+    _fptr["mod"] = &AVM::mod;
     _fptr["print"] = &AVM::print;
     _fptr["exit"] = &AVM::exit;
 }
@@ -104,12 +104,26 @@ AVM::pop(std::string const &str UNUSED){
 }
 void
 AVM::dump(std::string const &str UNUSED){
-    std::cout << "DUMP : ";
+    std::cout << "DUMP : " << std::endl;
+    std::cout << "======" << std::endl;
     std::stack<IOperand const *> s = _stack;
     while (!s.empty()){
+        switch(s.top()->getType()){
+            case 0 : std::cout << "Int8 ";
+                    break;
+            case 1 : std::cout << "Int16 ";
+                    break;
+            case 2 : std::cout << "Int32 ";
+                    break;
+            case 3 : std::cout << "Float ";
+                    break;
+            case 4 : std::cout << "Double ";
+                    break;
+        } 
         std::cout << s.top()->toString() << std::endl;
         s.pop();
     }
+    std::cout << "======" << std::endl;
 }
 void
 AVM::ass(std::string const &str){
@@ -180,36 +194,41 @@ AVM::div(std::string const &str UNUSED){
     b = _stack.top();
     std::cout << " / " << _stack.top()->toString();
     _stack.pop();
+    if (b->toString() == "0"){
+        std::cout << "\n";
+        throw MathError("Div by zero");
+    }    
     _stack.emplace(*b / *a);
     std::cout << " = " << _stack.top()->toString() << std::endl;
 
 }
-// void
-// AVM::mod(std::string const &str UNUSED){
-//     IOperand const   *a, *b;
-//     if (_stack.size() < 2)
-//         throw StackLessThan2("");
-//     a = _stack.top();
-    // std::cout << _stack.top()->toString();
-//     _stack.pop();
-//     b = _stack.top();
-//     _stack.pop();
-//     _stack.emplace(*a % *b);
 
-// }
+void
+AVM::mod(std::string const &str UNUSED){
+    std::cout << "MOD : ";
+    IOperand const   *a, *b;
+    if (_stack.size() < 2)
+        throw StackLessThan2("");
+    a = _stack.top();
+    std::cout << _stack.top()->toString();
+    _stack.pop();
+    b = _stack.top();
+    std::cout << " % " << _stack.top()->toString();
+    _stack.pop();
+    if (b->toString() == "0"){
+        std::cout << "\n";
+        throw MathError("Mod by zero");
+    }
+    _stack.emplace(*b % *a);
+    std::cout << " = " << _stack.top()->toString() << std::endl;
+}
 void
 AVM::print(std::string const &str UNUSED){
     std::cout << "PRINT : ";
-    std::stringstream   ss;
-    int                 val;
-
     if (_stack.top()->getType() != Int8){
         throw LogicalError("Cant print non-int8 value");
     }
-    ss << _stack.top()->toString();
-    ss >> val;
-    std::cout << static_cast<char>(val);
-
+    std::cout << _stack.top()->toString() << std::endl; 
 }
 void
 AVM::exit(std::string const &str UNUSED){

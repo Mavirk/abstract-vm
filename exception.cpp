@@ -17,11 +17,8 @@ LexParseError::LexParseError(std::string const& msg) :Exception(msg) {
 UnknownInstruction::UnknownInstruction(std::string const& msg) :Exception(msg) {
     _type = "Unknown Instruction Error : ";
 }
-Overflow::Overflow(std::string const& msg) :Exception(msg) {
-    _type = "Overflow Error : ";
-}
-Underflow::Underflow(std::string const& msg) :Exception(msg) {
-    _type = "Underflow Error : ";
+UnderOverFlow::UnderOverFlow(std::string const& msg) :Exception(msg) {
+    _type = "Underflow Or Overflow Error : ";
 }
 StackError::StackError(std::string const& msg) :Exception(msg) {
     _type = "Stack Error : ";
@@ -39,5 +36,8 @@ AssertFalse::AssertFalse(std::string const& msg) :Exception(msg) {
     _type = "Assert Error : ";
 }
 StackLessThan2::StackLessThan2(std::string const& msg) :Exception(msg) {
-    _type = "Stack Error ; ";
+    _type = "Stack Error : ";
+}
+MathError::MathError(std::string const& msg) :Exception(msg) {
+    _type = "Math Error : ";
 }

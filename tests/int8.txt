@@ -1,0 +1,25 @@
+; -------------
+; exemple.avm -
+; -------------
+
+push int8(2)
+push int8(2)
+add
+push int8(2)
+sub
+push int8(-2)
+mul
+push int8(0)
+div
+
+dump
+assert int8(0)
+pop
+push int8(-210)
+push int8(2)
+push int8(5)
+
+mod
+dump
+print
+exit

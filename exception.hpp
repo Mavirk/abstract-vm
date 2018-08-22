@@ -25,14 +25,9 @@ class UnknownInstruction : public Exception{
         UnknownInstruction(std::string const &msg);
 };
 
-class Overflow : public Exception{
+class UnderOverFlow : public Exception{
     public:
-        Overflow(std::string const &msg);
-};
-
-class Underflow : public Exception{
-    public:
-        Underflow(std::string const &msg);
+        UnderOverFlow(std::string const &msg);
 };
 
 class InputError : public Exception{
@@ -53,6 +48,11 @@ class LogicalError : public Exception{
 class NoExit : public Exception{
     public:
         NoExit(std::string const &msg);
+};
+
+class MathError : public Exception{
+    public:
+        MathError(std::string const &msg);
 };
 
 class AssertFalse : public Exception{

@@ -103,17 +103,18 @@ class Operand : public IOperand {
             return Parser::createOperand(precise, value);
         }
 
-        // IOperand const * operator%( IOperand const & rhs ) const{
-        //     std::stringstream   ss;
-        //     eOperandType        precise;
-        //     long double         rhsvalue;
-        //     long double         lhsvalue;
-        //     lhsvalue = _val;
+        IOperand const * operator%( IOperand const & rhs ) const{
+            std::stringstream   ss;
+            eOperandType        precise;
+            int                 value;
 
-        //     ss << rhs.toString();
-        //     ss >> rhsvalue;
-        //     precise = _type >= rhs.getType() ? _type : rhs.getType();
-        //     return Parser::createOperand(precise, _val % rhsvalue);
-        // }
+            if (rhs.getType() >= Float || _type >= Float)
+                throw MathError("Can't process modulo on decimal types");
+            ss << rhs.toString();
+            ss >> value;
+            precise = _type >= rhs.getType() ? _type : rhs.getType();
+            value = static_cast<int>(value) % static_cast<int>(_val);
+            return Parser::createOperand(precise, value);
+        }
 };
 #endif
