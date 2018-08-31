@@ -1,0 +1,17 @@
+push int32(12)
+push int8(30)
+dump
+mul
+dump
+push float(44.55)
+dump
+mul
+dump
+push double(42.42)
+push int32(42)
+dump
+pop
+assert double(42.42)
+push int8(39)
+print
+exit

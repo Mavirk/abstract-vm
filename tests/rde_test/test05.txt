@@ -1,0 +1,3 @@
+push double(0.)
+mul
+exit

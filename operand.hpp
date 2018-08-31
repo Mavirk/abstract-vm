@@ -5,6 +5,7 @@
 #include <typeinfo>
 #include "Ioperand.hpp"
 #include "avm.hpp"
+#include <math.h>
 template<typename T>
 class Operand : public IOperand {
     private:
@@ -106,14 +107,16 @@ class Operand : public IOperand {
         IOperand const * operator%( IOperand const & rhs ) const{
             std::stringstream   ss;
             eOperandType        precise;
-            int                 value;
+            long double                 value;
 
-            if (rhs.getType() >= Float || _type >= Float)
-                throw MathError("Can't process modulo on decimal types");
+
             ss << rhs.toString();
             ss >> value;
             precise = _type >= rhs.getType() ? _type : rhs.getType();
-            value = static_cast<int>(value) % static_cast<int>(_val);
+            if (rhs.getType() >= Float || _type >= Float)
+                value = fmod(value,static_cast<long double>(_val));
+            else
+                value = static_cast<int>(value) % static_cast<int>(_val);
             return Parser::createOperand(precise, value);
         }
 };

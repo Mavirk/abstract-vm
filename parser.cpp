@@ -43,6 +43,7 @@ Parser::operand(std::string const &str){
     ops["double"] = Double;
     type = str.substr(0, str.find("("));
     value = str.substr(str.find("(") + 1, str.find(")") - str.find("(") - 1);
+    // std::cout << type;
     if (ops.find(type) == ops.end())
         throw LexParseError("Unknown type : " + type);
     return Parser::createOperand(ops[type], value);

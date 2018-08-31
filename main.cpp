@@ -4,11 +4,17 @@
 // #include "parser.hpp"
 #include "Ioperand.hpp"
 
-int main(int argc UNUSED, char **argv ){
+int main(int argc , char **argv ){
     try {
-        AVM	vm(argv[1]);
+        if(argc == 1){
+            AVM mm("");
+            mm.run();
+
+        }else{
+            AVM	vm(argv[1]);
+            vm.run();
+        }
         // Parser::createOperand(Int8, "test");
-        vm.run();
 
     } catch (Exception const& e) {
         std::cerr << e.what() << std::endl;

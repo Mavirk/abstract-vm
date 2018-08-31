@@ -31,6 +31,11 @@ Lexer::run() {
     for (size_t i = 0 ; i < _rawLines.size(); i++){
         lex(_rawLines[i], i + 1);
     }
+    // for (size_t i  = 0; i < _lexemes.size(); i++){
+    //     std::cout << " type " <<_lexemes[i].type << " value ";
+    //     std::cout << _lexemes[i].value << std::endl ;
+
+    // }
 }
 
 void
@@ -44,10 +49,12 @@ Lexer::lex(std::string line, size_t j) {
     std::regex f("float\\([-]?([0-9]*[.])?[0-9]+\\)");
     for (size_t i = 0; i < line.length(); i++){
         c = line[i];
-        if (c == ';')
+        if (c == ';'){
+            c = ' ';
             while (i < line.length())
                 i++;
-        
+        }
+        // std::cout << "curr " << curr << std::endl;
         if (isspace(c)){
             if (curr == "push"){
                 _lexemes.emplace_back(Lexeme{PUSH, curr, j});

@@ -1,4 +1,4 @@
-NAME	=	avm
+NAME	=	abstractvm
 
 SRCS	=	main.cpp		\
 			parser.cpp		\

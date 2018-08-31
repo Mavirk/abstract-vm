@@ -1,0 +1,5 @@
+push int32(2) ;
+push int32(2)
+add
+dump
+exit

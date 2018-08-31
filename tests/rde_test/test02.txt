@@ -1,0 +1,8 @@
+; must return an error ?
+push int8(0.3)
+push int16(12.3)
+push int32(12456456.3)
+dump
+div
+dump
+exit

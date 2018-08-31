@@ -1,0 +1,2 @@
+; many errors
+push int8(0)

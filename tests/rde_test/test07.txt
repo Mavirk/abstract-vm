@@ -1,0 +1,7 @@
+; Mod on double
+push int32(3)
+push double(-5.3)
+dump
+mod
+dump
+exit

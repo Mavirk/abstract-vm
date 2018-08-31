@@ -8,13 +8,13 @@ AVM::AVM(std::string filename){
 
     if(filename.empty() || !f.good()){
         std::cout << "Input Error : Invalid File ... Starting Manual Input Mode" << std::endl;
-        while (line != ";;"){
+        while (line != ";;\n"){
             std::getline(std::cin, line);
             line += '\n';
-            if (line != ";;")
+            if (line != ";;\n")
                 raw.push_back(line);
-            else
-                raw.push_back("exit\n");
+            // else
+            //     raw.push_back("exit\n");
         }
     }else if (f.is_open()){
         while (getline(f, line)){
@@ -60,6 +60,7 @@ AVM::operator=(const AVM & vm){
 
 void
 AVM::run(){
+    // std::cout << "=====Running AVM=====" << std::endl;
     bool error = false;
     for(size_t x = 0; x < _lexemes.size(); x++){
         if (_lexemes[x].type == -1){
@@ -72,14 +73,15 @@ AVM::run(){
         if (!error){    
             if (_lexemes[i].value == "push" || _lexemes[i].value == "assert"){
                 if (i + 1 < _lexemes.size()){
-                    // std::cout << i << std::endl;
+                    // std::cout << "value " << _lexemes[i].value << std::endl;
+                    // std::cout << "type " << _lexemes[i + 1].value << std::endl;
                     (this->*_fptr[_lexemes[i].value])(_lexemes[i + 1].value);
                     i++;
                 }else{
                     throw NoExit("no exit was found");
                 }
             }else{
-                // std::cout << i << std::endl;
+                // std::cout << i << std::endl;~~
                 // std::cout << _lexemes[i].value << std::endl;
                 (this->*_fptr[_lexemes[i].value])("");
                 // std::cout << "test" << std::endl;
@@ -95,46 +97,46 @@ AVM::run(){
 }
 void
 AVM::push(std::string const &str){
-    std::cout << "PUSH : ";
+    // std::cout << "PUSH : ";
     _stack.emplace(Parser::operand(str));
-    std::cout << _stack.top()->toString() << std::endl;
+    // std::cout << _stack.top()->toString() << std::endl;
 }
 void
 AVM::pop(std::string const &str UNUSED){
     if (_stack.empty())
         throw StackError("Pop on empty");
-    std::cout << "POP : ";
-    std::cout << _stack.top()->toString() << std::endl;
+    // std::cout << "POP : ";
+    // std::cout << _stack.top()->toString() << std::endl;
     _stack.pop();
 }
 void
 AVM::dump(std::string const &str UNUSED){
-    std::cout << "DUMP : " << std::endl;
-    std::cout << "======" << std::endl;
+    // std::cout << "DUMP : " << std::endl;
+    // std::cout << "======" << std::endl;
     std::stack<IOperand const *> s = _stack;
     while (!s.empty()){
-        switch(s.top()->getType()){
-            case 0 : std::cout << "Int8 ";
-                    break;
-            case 1 : std::cout << "Int16 ";
-                    break;
-            case 2 : std::cout << "Int32 ";
-                    break;
-            case 3 : std::cout << "Float ";
-                    break;
-            case 4 : std::cout << "Double ";
-                    break;
-        } 
-        std::cout << s.top()->toString() << std::endl;
-        s.pop();
+    //     switch(s.top()->getType()){
+    //         case 0 : std::cout << "Int8 ";
+    //                 break;
+    //         case 1 : std::cout << "Int16 ";
+    //                 break;
+    //         case 2 : std::cout << "Int32 ";
+    //                 break;
+    //         case 3 : std::cout << "Float ";
+    //                 break;
+    //         case 4 : std::cout << "Double ";
+    //                 break;
+    //     } 
+    std::cout << s.top()->toString() << std::endl;
+    s.pop();
     }
-    std::cout << "======" << std::endl;
+    // std::cout << "======" < std::endl;
 }
 void
 AVM::ass(std::string const &str){
-    std::cout << "ASSERT : ";
+    // std::cout << "ASSERT : ";
     IOperand const		*cmp = Parser::operand(str);
-    std::cout << _stack.top()->toString() << std::endl;
+    // std::cout << _stack.top()->toString() << std::endl;
     if (_stack.top()->getType() != cmp->getType()
         || _stack.top()->toString() != cmp->toString()){
             throw AssertFalse(str + "cannot be asserted to top of stack");
@@ -144,67 +146,65 @@ void
 AVM::add(std::string const &str UNUSED){
     if (_stack.size() < 2)
         throw StackError("Adding on stack with less than two operands");
-    std::cout << "ADD : ";
+    // std::cout << "ADD : ";
     IOperand const   *a, *b;
     a = _stack.top();
-    std::cout << _stack.top()->toString();
+    // std::cout << _stack.top()->toString();
     _stack.pop();
     b = _stack.top();
-    std::cout << " + " << _stack.top()->toString();
+    // std::cout << " + " << _stack.top()->toString();
     _stack.pop();
     _stack.emplace(*a + *b);
-    std::cout << " = " << _stack.top()->toString() << std::endl;
+    // std::cout << " = " << _stack.top()->toString() << std::endl;
     // std::cout << _stack.top()->toString() << std::endl;
 }
 void
 AVM::sub(std::string const &str UNUSED){
     if (_stack.size() < 2)
         throw StackError("Subtracting on stack with less than two operands");
-    std::cout << "SUB : ";
+    // std::cout << "SUB : ";
     IOperand const   *a, *b;
     a = _stack.top();
-    std::cout << a->toString();
+    // std::cout << a->toString();
     _stack.pop();
     b = _stack.top();
-    std::cout << " - " << b->toString();
+    // std::cout << " - " << b->toString();
     _stack.pop();
-    _stack.emplace(*b - *a);
-    std::cout << " = " << _stack.top()->toString() << std::endl;
+    _stack.emplace(*a - *b);
+    // std::cout << " = " << _stack.top()->toString() << std::endl;
 }
 void
 AVM::mul(std::string const &str UNUSED){
     if (_stack.size() < 2)
         throw StackError("Multiplying on stack with less than two operands");
-    std::cout << "MUL : ";
+    // std::cout << "MUL : ";
     IOperand const   *a, *b;
     a = _stack.top();
-    std::cout << _stack.top()->toString();
+    // std::cout << _stack.top()->toString();
     _stack.pop();
     b = _stack.top();
-    std::cout << " * " << _stack.top()->toString();
+    // std::cout << " * " << _stack.top()->toString();
     _stack.pop();
     _stack.emplace(*a * *b);
-    std::cout << " = " << _stack.top()->toString() << std::endl;
+    // std::cout << " = " << _stack.top()->toString() << std::endl;
 
 }
 void
 AVM::div(std::string const &str UNUSED){
     if (_stack.size() < 2)
         throw StackError("Dividing on stack with less than two operands");
-    std::cout << "DIV : ";
+    // std::cout << "DIV : ";
     IOperand const   *a, *b;
     a = _stack.top();
-    std::cout << _stack.top()->toString();
+    // std::cout << _stack.top()->toString();
     _stack.pop();
     b = _stack.top();
-    std::cout << " / " << _stack.top()->toString();
+    // std::cout << " / " << _stack.top()->toString();
     _stack.pop();
-    if (b->toString() == "0"){
-        std::cout << "\n";
+    if (a->toString() == "0")
         throw MathError("Div by zero");
-    }    
-    _stack.emplace(*b / *a);
-    std::cout << " = " << _stack.top()->toString() << std::endl;
+    _stack.emplace(*a / *b);
+    // std::cout << " = " << _stack.top()->toString() << std::endl;
 
 }
 
@@ -212,31 +212,32 @@ void
 AVM::mod(std::string const &str UNUSED){
     if (_stack.size() < 2)
         throw StackError("Modulus on stack with less than two operands");
-    std::cout << "MOD : ";
+    // std::cout << "MOD : ";
     IOperand const   *a, *b;
     a = _stack.top();
-    std::cout << _stack.top()->toString();
+    // std::cout << _stack.top()->toString();
     _stack.pop();
     b = _stack.top();
-    std::cout << " % " << _stack.top()->toString();
+    // std::cout << " % " << _stack.top()->toString();
     _stack.pop();
-    if (b->toString() == "0"){
-        std::cout << "\n";
+    if (a->toString() == "0"){
         throw MathError("Mod by zero");
     }
     _stack.emplace(*b % *a);
-    std::cout << " = " << _stack.top()->toString() << std::endl;
+    // std::cout << " = " << _stack.top()->toString() << std::endl;
 }
 void
 AVM::print(std::string const &str UNUSED){
-    std::cout << "PRINT : ";
+    // std::cout << "PRINT : ";
+    char c;
     if (_stack.top()->getType() != Int8){
         throw LogicalError("Cant print non-int8 value");
     }
-    std::cout << _stack.top()->toString() << std::endl; 
+    c =  stoi(_stack.top()->toString());
+    std::cout <<  c << std::endl; 
 }
 void
 AVM::exit(std::string const &str UNUSED){
-    std::cout << "EXIT : " << std::endl;
+    // std::cout << "EXIT : " << std::endl;
     _end = true;
 }
